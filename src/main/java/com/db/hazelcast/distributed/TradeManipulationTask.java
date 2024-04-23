@@ -36,7 +36,7 @@ public class TradeManipulationTask implements HazelcastInstanceAware, Callable<L
 		
 		List<Trade> trades = (List<Trade>) instance.getMap(TRADE_MAP).get(key);
 		
-		Instant now = Instant.now();
+		Instant now = new Date().toInstant();
 		Instant then = now.minusSeconds(DURATION_SECONDS);
 		
 		List<Trade> invalidTrades = new ArrayList<Trade>(); 
@@ -48,7 +48,7 @@ public class TradeManipulationTask implements HazelcastInstanceAware, Callable<L
 				int invalidTradesCount = 0;
 				List<Trade> stockTrades = map.get(stock);
 				for (Trade trade : stockTrades) {
-					Instant instant = Instant.ofEpochMilli(trade.getTimestamp());
+					Instant instant = trade.getTimestamp();
 					if (!instant.isBefore(then) && instant.isBefore(now)) {
 						invalidTradesCount++;
 					}

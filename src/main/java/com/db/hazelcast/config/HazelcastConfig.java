@@ -21,7 +21,7 @@ public class HazelcastConfig {
 	
 	public Config createConfig() {
 	  Config config = new Config();
-	  config.getSerializationConfig().addSerializerConfig(serializerConfig());
+//	  config.getSerializationConfig().addSerializerConfig(serializerConfig());
 	  return config;
      }
 		 

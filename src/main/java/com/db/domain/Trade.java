@@ -1,13 +1,16 @@
 package com.db.domain;
 
-public class Trade {
+import java.io.Serializable;
+import java.time.Instant;
+
+public class Trade implements Serializable{
 	
 	private long traderId;
 	private long stockId;
 	private long amount;
 	private String currency;
 	private String transaction;
-	private long timestamp;
+	private Instant timestamp;
 	
 	private String firstName;
 	private String lastName;
@@ -44,12 +47,6 @@ public class Trade {
 	public void setTransaction(String transaction) {
 		this.transaction = transaction;
 	}
-	public long getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
-	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -80,5 +77,13 @@ public class Trade {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
+	public Instant getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(Instant timestamp) {
+		this.timestamp = timestamp;
+	}
+	
+	
 	
 }

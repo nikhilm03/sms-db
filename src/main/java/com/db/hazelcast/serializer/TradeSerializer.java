@@ -16,7 +16,7 @@ public class TradeSerializer implements StreamSerializer<Trade> {
 		  out.writeLong(object.getAmount());
 		  out.writeUTF(object.getCurrency());
 		  out.writeUTF(object.getTransaction());
-		  out.writeLong(object.getTimestamp());
+//		  out.writeLong(object.getTimestamp());
 		 
 		  out.writeUTF(object.getFirstName());
 		  out.writeUTF(object.getLastName());
@@ -36,7 +36,7 @@ public class TradeSerializer implements StreamSerializer<Trade> {
 		 trade.setAmount(in.readLong());
 		 trade.setCurrency(in.readUTF());
 		 trade.setTransaction(in.readUTF());
-		 trade.setTimestamp(in.readLong());
+//		 trade.setTimestamp(in.readLong());
 		 
 		 trade.setFirstName(in.readUTF());
 		 trade.setLastName(in.readUTF());

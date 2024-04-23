@@ -33,7 +33,7 @@ public class SmsJob {
 	@Autowired
 	HazelcastInstance instance;
 	
-	 @Scheduled(cron = "0 */2 * ? * *")
+	 @Scheduled(cron = "0 */1 * ? * *")
 	 public void identifyCorruptTrader() {
 		 
 		 logger.info("Job triggered to identify corrupt trader/s..");
@@ -55,7 +55,9 @@ public class SmsJob {
 			} catch (ExecutionException e) {
 				logger.error("Error while executing distributed task {} ", e.getMessage());
 			}
-		 }		 
+		 }	
+		 
+		 logger.info("Job finished to identify corrupt trader/s..");
 		
 	}
 

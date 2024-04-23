@@ -31,13 +31,13 @@ public class TradeInsertUtility {
 		
 		// Bad Trader (punches 6 trades every 1 mins for same stock)
 		String badTrader = "nikhil.mayaskar@db.com";
-		int delayInMins = 1;
+		int delayInMins = -1;
 		
 		Date date1 = new Date();
 		 
 //		Instant instant = Instant.now();
 //		Timestamp timestamp = Timestamp.from(instant);
-//		timestamp.getTime();
+//		timestamp.toInstant();
 //		instant = timestamp.toInstant();
 		
 		Trade trade1 = new Trade();
@@ -51,7 +51,7 @@ public class TradeInsertUtility {
 		trade1.setLastName("Mayaskar");
 		trade1.setNationality("India");
 		trade1.setTransaction("Buy");
-		trade1.setTimestamp(date1.getTime());		
+		trade1.setTimestamp(date1.toInstant());		
 		
 		Date date2 = DateUtils.addMinutes(date1, delayInMins);
 		
@@ -66,7 +66,7 @@ public class TradeInsertUtility {
 		trade2.setLastName("Mayaskar");
 		trade2.setNationality("India");
 		trade2.setTransaction("Buy");
-		trade2.setTimestamp(date2.getTime());
+		trade2.setTimestamp(date2.toInstant());
 		
 		Date date3 = DateUtils.addMinutes(date2, delayInMins);
 		
@@ -81,7 +81,7 @@ public class TradeInsertUtility {
 		trade3.setLastName("Mayaskar");
 		trade3.setNationality("India");
 		trade3.setTransaction("Buy");
-		trade3.setTimestamp(date3.getTime());
+		trade3.setTimestamp(date3.toInstant());
 		
 		Date date4 = DateUtils.addMinutes(date3, delayInMins);
 		
@@ -96,7 +96,7 @@ public class TradeInsertUtility {
 		trade4.setLastName("Mayaskar");
 		trade4.setNationality("India");
 		trade4.setTransaction("Buy");
-		trade4.setTimestamp(date4.getTime());
+		trade4.setTimestamp(date4.toInstant());
 		
 		Date date5 = DateUtils.addMinutes(date4, delayInMins);
 		
@@ -111,7 +111,7 @@ public class TradeInsertUtility {
 		trade5.setLastName("Mayaskar");
 		trade5.setNationality("India");
 		trade5.setTransaction("Buy");
-		trade5.setTimestamp(date5.getTime());
+		trade5.setTimestamp(date5.toInstant());
 		
 		Date date6 = DateUtils.addMinutes(date5, delayInMins);
 		
@@ -126,10 +126,10 @@ public class TradeInsertUtility {
 		trade6.setLastName("Mayaskar");
 		trade6.setNationality("India");
 		trade6.setTransaction("Buy");
-		trade6.setTimestamp(date6.getTime());
+		trade6.setTimestamp(date6.toInstant());
 		
 		
-		Date date7 = DateUtils.addMinutes(date5, delayInMins);
+		Date date7 = DateUtils.addMinutes(date6, delayInMins);
 		
 		Trade trade7 = new Trade();
 		trade7.setTraderId(8330334);
@@ -142,7 +142,7 @@ public class TradeInsertUtility {
 		trade7.setLastName("Mayaskar");
 		trade7.setNationality("India");
 		trade7.setTransaction("Buy");
-		trade7.setTimestamp(date7.getTime());
+		trade7.setTimestamp(date7.toInstant());
 		
 		List<Trade> badTrades = new  ArrayList<Trade>();
 		badTrades.add(trade1);
@@ -166,11 +166,11 @@ public class TradeInsertUtility {
 		trade8.setCountry("IN");
 		trade8.setCurrency("INR");
 		trade8.setDob("03/04/1981");
-		trade8.setFirstName("Nikhil");
-		trade8.setLastName("Mayaskar");
+		trade8.setFirstName("Good");
+		trade8.setLastName("Trader");
 		trade8.setNationality("India");
 		trade8.setTransaction("Buy");
-		trade8.setTimestamp(date8.getTime());		
+		trade8.setTimestamp(date8.toInstant());		
 		
 		Date date9 = DateUtils.addMinutes(date8, delayInMins);
 		
@@ -181,11 +181,11 @@ public class TradeInsertUtility {
 		trade9.setCountry("IN");
 		trade9.setCurrency("INR");
 		trade9.setDob("03/04/1981");
-		trade9.setFirstName("Nikhil");
-		trade9.setLastName("Mayaskar");
+		trade9.setFirstName("Good");
+		trade9.setLastName("Trader");
 		trade9.setNationality("India");
 		trade9.setTransaction("Buy");
-		trade9.setTimestamp(date9.getTime());
+		trade9.setTimestamp(date9.toInstant());
 		
 		Date date10 = DateUtils.addMinutes(date9, delayInMins);
 		
@@ -196,11 +196,11 @@ public class TradeInsertUtility {
 		trade10.setCountry("IN");
 		trade10.setCurrency("INR");
 		trade10.setDob("03/04/1981");
-		trade10.setFirstName("Nikhil");
-		trade10.setLastName("Mayaskar");
+		trade10.setFirstName("Good");
+		trade10.setLastName("Trader");
 		trade10.setNationality("India");
 		trade10.setTransaction("Buy");
-		trade10.setTimestamp(date10.getTime());
+		trade10.setTimestamp(date10.toInstant());
 		
 		Date date11 = DateUtils.addMinutes(date10, delayInMins);
 		
@@ -211,11 +211,11 @@ public class TradeInsertUtility {
 		trade11.setCountry("IN");
 		trade11.setCurrency("INR");
 		trade11.setDob("03/04/1981");
-		trade11.setFirstName("Nikhil");
-		trade11.setLastName("Mayaskar");
+		trade11.setFirstName("Good");
+		trade11.setLastName("Trader");
 		trade11.setNationality("India");
 		trade11.setTransaction("Buy");
-		trade11.setTimestamp(date11.getTime());
+		trade11.setTimestamp(date11.toInstant());
 		
 		Date date12 = DateUtils.addMinutes(date11, delayInMins);
 		
@@ -226,11 +226,11 @@ public class TradeInsertUtility {
 		trade12.setCountry("IN");
 		trade12.setCurrency("INR");
 		trade12.setDob("03/04/1981");
-		trade12.setFirstName("Nikhil");
-		trade12.setLastName("Mayaskar");
+		trade12.setFirstName("Good");
+		trade12.setLastName("Trader");
 		trade12.setNationality("India");
 		trade12.setTransaction("Buy");
-		trade12.setTimestamp(date12.getTime());
+		trade12.setTimestamp(date12.toInstant());
 		
 		Date date13 = DateUtils.addMinutes(date12, delayInMins);
 		
@@ -241,11 +241,11 @@ public class TradeInsertUtility {
 		trade13.setCountry("IN");
 		trade13.setCurrency("INR");
 		trade13.setDob("03/04/1981");
-		trade13.setFirstName("Nikhil");
-		trade13.setLastName("Mayaskar");
+		trade13.setFirstName("Good");
+		trade13.setLastName("Trader");
 		trade13.setNationality("India");
 		trade13.setTransaction("Buy");
-		trade13.setTimestamp(date13.getTime());
+		trade13.setTimestamp(date13.toInstant());
 		
 		
 		Date date14 = DateUtils.addMinutes(date13, delayInMins);
@@ -257,20 +257,20 @@ public class TradeInsertUtility {
 		trade14.setCountry("IN");
 		trade14.setCurrency("INR");
 		trade14.setDob("03/04/1981");
-		trade14.setFirstName("Nikhil");
-		trade14.setLastName("Mayaskar");
+		trade14.setFirstName("Good");
+		trade14.setLastName("Trader");
 		trade14.setNationality("India");
 		trade14.setTransaction("Buy");
-		trade14.setTimestamp(date14.getTime());	
+		trade14.setTimestamp(date14.toInstant());	
 		
 		List<Trade> goodTrades = new  ArrayList<Trade>();
-		goodTrades.add(trade1);
-		goodTrades.add(trade2);
-		goodTrades.add(trade3);
-		goodTrades.add(trade4);
-		goodTrades.add(trade5);
-		goodTrades.add(trade6);
-		goodTrades.add(trade7);
+		goodTrades.add(trade8);
+		goodTrades.add(trade8);
+		goodTrades.add(trade10);
+		goodTrades.add(trade11);
+		goodTrades.add(trade12);
+		goodTrades.add(trade13);
+		goodTrades.add(trade14);
 		
 		traderMap.put(badTrader, badTrades);
 		traderMap.put(goodTrader, goodTrades);
