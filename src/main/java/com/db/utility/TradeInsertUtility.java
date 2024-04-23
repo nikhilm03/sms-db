@@ -1,7 +1,5 @@
 package com.db.utility;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,11 +8,13 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 
 import com.db.domain.Trade;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 
+@Component
 public class TradeInsertUtility {
 	
 	private final String TRADE_MAP = "trade_map";
