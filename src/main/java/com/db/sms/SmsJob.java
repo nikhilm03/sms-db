@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.db.domain.BreachDetail;
 import com.db.domain.Trade;
 import com.db.hazelcast.distributed.TradeManipulationTask;
+import com.db.regulatory.RegulatoryAuthorityUtil;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.IMap;
@@ -36,19 +38,20 @@ public class SmsJob {
 	 @Scheduled(cron = "0 */1 * ? * *")
 	 public void identifyCorruptTrader() {
 		 
-		 logger.info("Job triggered to identify corrupt trader/s..");
+		 logger.info("Job triggered to identify manipulative trader/s..");
 		 
 		 IMap<String, List<Trade>> traderMap = instance.getMap(TRADE_MAP);
 		 
 		 for (String key : traderMap.keySet()) {
-			 Callable<List<Trade>> task = new TradeManipulationTask(key);
+			 Callable<List<BreachDetail>> task = new TradeManipulationTask(key);
 			 IExecutorService executorService =  instance.getExecutorService("default");
-			 Future<List<Trade>> future = executorService.submitToKeyOwner(task, key);
+			 Future<List<BreachDetail>> future = executorService.submitToKeyOwner(task, key);
 			 try {
-				 List<Trade> trades = future.get();
-				 for (Trade trade : trades) {
-					 logger.error("ALERT - " + trade.getFirstName());
-				}
+				 List<BreachDetail> breachDetails = future.get();
+				 if (breachDetails != null && breachDetails.size() > 0) {
+					 breachDetails.stream().forEach(breach -> logBreachDetails(breach));
+					 RegulatoryAuthorityUtil.notifyRegulatoryAuthorities(breachDetails);
+				 }				 				 
 				
 			} catch (InterruptedException e) {
 				logger.error("Error while executing distributed task {} ", e.getMessage());
@@ -57,8 +60,12 @@ public class SmsJob {
 			}
 		 }	
 		 
-		 logger.info("Job finished to identify corrupt trader/s..");
+		 logger.info("Job finished to identify manipulative trader/s.");
 		
+	}
+
+	private void logBreachDetails(BreachDetail breach) {		
+		logger.error("ALERT - Trader {} {} with trader Id {} executed more than 5 trades in last 10 mins on Stock Id {}.", breach.getFirstName(), breach.getLastName(), breach.getTraderId(), breach.getStockId());		
 	}
 
 }

@@ -1,9 +1,8 @@
 package com.db.hazelcast.distributed;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,11 +10,30 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.db.domain.BreachDetail;
 import com.db.domain.Trade;
+import com.db.sms.SmsJob;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceAware;
 
-public class TradeManipulationTask implements HazelcastInstanceAware, Callable<List<Trade>>, Serializable {
+/**
+ * This task runs on hazelcast node where key (trader) is stored.
+ * It evaluates the trades for a particular stock and flags if more than 5 trades are executed in last 10 mins.
+ * 
+ * This api should be : 
+ * 1. HazelcastInstanceAware : as it runs in a distributed way on hazelcast nodes
+ * 2. Callable : as it is executed asynchronously
+ * 3. Serializable : as it runs outside the parent jvm.
+ * 
+ * @author admin
+ *
+ */
+public class TradeManipulationTask implements HazelcastInstanceAware, Callable<List<BreachDetail>>, Serializable {
+	
+	private Logger logger = LoggerFactory.getLogger(TradeManipulationTask.class);
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -26,20 +44,23 @@ public class TradeManipulationTask implements HazelcastInstanceAware, Callable<L
 	
 	private String key;
 	
+	private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
+	
 	
 	public TradeManipulationTask(String key) {
 		this.key = key;
-	}
+    }
+		
 
 	@Override
-	public List<Trade> call() throws Exception {
+	public List<BreachDetail> call() throws Exception {
 		
 		List<Trade> trades = (List<Trade>) instance.getMap(TRADE_MAP).get(key);
 		
 		Instant now = new Date().toInstant();
 		Instant then = now.minusSeconds(DURATION_SECONDS);
 		
-		List<Trade> invalidTrades = new ArrayList<Trade>(); 
+		List<BreachDetail> breachDetails = new ArrayList<BreachDetail>(); 
 		if(trades != null && trades.size() > 0) {
 			
 			Map<Long, List<Trade>> map = trades.stream().collect(Collectors.groupingBy(Trade::getStockId) );
@@ -54,15 +75,35 @@ public class TradeManipulationTask implements HazelcastInstanceAware, Callable<L
 					}
 				}
 				if (invalidTradesCount > 5) {
-					invalidTrades.add(stockTrades.get(0));
+					breachDetails.add(getBreachDetails(stockTrades.get(0)));
 				}				
 			}
 		}
 		
-		return invalidTrades;
+		return breachDetails;
 	}
 	
-	 @Override
+	 
+	/*
+	 * TODO : Orika mapper can be used here;
+	 */
+	private BreachDetail getBreachDetails(Trade trade) {
+		
+		BreachDetail breach = new BreachDetail();
+		
+		breach.setBreachDate(DATE_FORMAT.format(new Date()));
+		breach.setCountry(trade.getCountry());
+		breach.setDob(trade.getDob());
+		breach.setFirstName(trade.getFirstName());
+		breach.setLastName(trade.getLastName());
+		breach.setNationality(trade.getNationality());
+		breach.setStockId(trade.getStockId());
+		breach.setTraderId(trade.getTraderId());
+		
+		return breach;
+	}
+
+	@Override
      public void setHazelcastInstance(HazelcastInstance hazelcastInstance) {
          this.instance = hazelcastInstance;
      }

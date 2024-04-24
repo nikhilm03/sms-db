@@ -17,6 +17,7 @@ public class Trade implements Serializable{
 	private String nationality;
 	private String country;
 	private String dob;
+	
 	public long getTraderId() {
 		return traderId;
 	}
