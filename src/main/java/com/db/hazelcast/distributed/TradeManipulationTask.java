@@ -15,12 +15,11 @@ import org.slf4j.LoggerFactory;
 
 import com.db.domain.BreachDetail;
 import com.db.domain.Trade;
-import com.db.sms.SmsJob;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceAware;
 
 /**
- * This task runs on hazelcast node where key (trader) is stored.
+ * This task runs on hazelcast node where key (trader email) is stored.
  * It evaluates the trades for a particular stock and flags if more than 5 trades are executed in last 10 mins.
  * 
  * This api should be : 
@@ -37,15 +36,13 @@ public class TradeManipulationTask implements HazelcastInstanceAware, Callable<L
 	
 	private static final long serialVersionUID = 1L;
 	
+	private String key;
 	private final String TRADE_MAP = "trade_map";
 	private final long DURATION_SECONDS = 600;
-	
-	transient HazelcastInstance instance;
-	
-	private String key;
-	
+	private final int INVALID_TRADE_COUNT = 5;
 	private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
 	
+	transient HazelcastInstance instance;	
 	
 	public TradeManipulationTask(String key) {
 		this.key = key;
@@ -63,8 +60,8 @@ public class TradeManipulationTask implements HazelcastInstanceAware, Callable<L
 		List<BreachDetail> breachDetails = new ArrayList<BreachDetail>(); 
 		if(trades != null && trades.size() > 0) {
 			
-			Map<Long, List<Trade>> map = trades.stream().collect(Collectors.groupingBy(Trade::getStockId) );
-			//for each stock check the validity of trades			
+			Map<Long, List<Trade>> map = trades.stream().collect(Collectors.groupingBy(Trade::getStockId));
+			//for each stock check the validity of trades. TODO: multithreading per stock to speed up		
 			for (Long stock : map.keySet()) {
 				int invalidTradesCount = 0;
 				List<Trade> stockTrades = map.get(stock);
@@ -74,7 +71,7 @@ public class TradeManipulationTask implements HazelcastInstanceAware, Callable<L
 						invalidTradesCount++;
 					}
 				}
-				if (invalidTradesCount > 5) {
+				if (invalidTradesCount > INVALID_TRADE_COUNT) {
 					breachDetails.add(getBreachDetails(stockTrades.get(0)));
 				}				
 			}

@@ -10,6 +10,12 @@ import com.hazelcast.config.SerializerConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
+/**
+ * Hazelcast node with default config.
+ * 
+ * @author admin
+ *
+ */
 @Component
 public class HazelcastConfig {
 	
@@ -19,6 +25,7 @@ public class HazelcastConfig {
 		return Hazelcast.newHazelcastInstance(createConfig());
 	}
 	
+	//TODO : config to be externalised to hazelcast.yaml
 	public Config createConfig() {
 	  Config config = new Config();
 //	  config.getSerializationConfig().addSerializerConfig(serializerConfig());

@@ -20,8 +20,11 @@ import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.IMap;
 
 /**
- * The job scans all the trades in cache and identifies a trader with a certain Trader id who 
- * buys or sells a stock with the same Stock_id more than 5 times
+ * The job is scheduled as per cron configuration (every 2 mins). 
+ * It creates a distributed task which runs on hazelcast node where that particular key is present (trader email).
+ * This prevents network hops and memory overflow in parent node.
+ *  
+ * 
  * @author admin
  *
  */
@@ -35,10 +38,10 @@ public class SmsJob {
 	@Autowired
 	HazelcastInstance instance;
 	
-	 @Scheduled(cron = "0 */1 * ? * *")
+	 @Scheduled(cron = "0 */2 * ? * *")  //TODO:to be externalized to a property file.
 	 public void identifyCorruptTrader() {
 		 
-		 logger.info("Job triggered to identify manipulative trader/s..");
+		 logger.info("Job triggered to identify manipulative trader(s)..");
 		 
 		 IMap<String, List<Trade>> traderMap = instance.getMap(TRADE_MAP);
 		 
@@ -60,7 +63,7 @@ public class SmsJob {
 			}
 		 }	
 		 
-		 logger.info("Job finished to identify manipulative trader/s.");
+		 logger.info("Job finished to identify manipulative trader(s).");
 		
 	}
 

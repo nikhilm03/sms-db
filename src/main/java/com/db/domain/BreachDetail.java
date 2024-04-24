@@ -1,13 +1,15 @@
 package com.db.domain;
 
 import java.io.Serializable;
-import java.time.Instant;
-import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
+/**
+ * The details of breach - trader, trade details and the time when breach occurred.
+ * 
+ * @author admin
+ *
+ */
 public class BreachDetail implements Serializable {	
 	
 	private static final long serialVersionUID = 1L;

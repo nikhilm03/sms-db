@@ -14,6 +14,18 @@ import com.db.domain.Trade;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 
+
+/**
+ * Inserts test data in hazelcast. List of trades are inserted per trader email (considered unique).
+ * 
+ * key = trader email
+ * value = list of trades
+ * 
+ * The list of trades are for multiple stock Ids;
+ * 
+ * @author admin
+ *
+ */
 @Component
 public class TradeInsertUtility {
 	

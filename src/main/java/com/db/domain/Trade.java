@@ -3,6 +3,12 @@ package com.db.domain;
 import java.io.Serializable;
 import java.time.Instant;
 
+/**
+ * Trade details entered by trader.
+ * 
+ * @author admin
+ *
+ */
 public class Trade implements Serializable{
 	
 	private long traderId;
