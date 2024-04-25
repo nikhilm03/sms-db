@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.db.domain.Trade;
 import com.db.hazelcast.serializer.TradeSerializer;
+import com.hazelcast.config.ClasspathXmlConfig;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.SerializerConfig;
 import com.hazelcast.core.Hazelcast;
@@ -25,9 +26,8 @@ public class HazelcastConfig {
 		return Hazelcast.newHazelcastInstance(createConfig());
 	}
 	
-	//TODO : config to be externalised to hazelcast.yaml
 	public Config createConfig() {
-	  Config config = new Config();
+	  ClasspathXmlConfig config = new ClasspathXmlConfig("hazelcast.xml");
 //	  config.getSerializationConfig().addSerializerConfig(serializerConfig());
 	  return config;
      }
